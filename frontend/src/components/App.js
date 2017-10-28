@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
+import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
+import Navigation from './Navigation'
 import PostList from './PostList'
-import { getPosts } from '../utils/api';
-import '../App.css';
+import Post from './Post'
+import { getPosts } from '../utils/api'
+import '../App.css'
 
 class App extends Component {
   state = {
@@ -10,27 +12,31 @@ class App extends Component {
   }
   componentDidMount() {
     getPosts().then((posts) => {
-      console.log(posts)
       this.setState({ posts })
     })
   }
   render() {
+    const { posts } = this.state
+    const reactPosts = posts.filter(post => post.category === 'react')
+    const reduxPosts = posts.filter(post => post.category === 'redux')
+    const udacityPosts = posts.filter(post => post.category === 'udacity')
+
     return (
       <div className="container">
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Readable</a>
-            </Navbar.Brand>
-          </Navbar.Header>
-          <Nav>
-            <NavItem eventKey={1} href="#">All</NavItem>
-            <NavItem eventKey={2} href="#">React</NavItem>
-            <NavItem eventKey={2} href="#">Redux</NavItem>
-            <NavItem eventKey={2} href="#">Udacity</NavItem>
-          </Nav>
-        </Navbar>
-        <PostList posts={this.state.posts}/>
+        <Navigation />
+        <Route exact path="/" render={() => (
+          <PostList posts={posts}/>
+        )}/>
+        <Route exact path="/react" render={() => (
+          <PostList posts={reactPosts}/>
+        )}/>
+        <Route exact path="/redux" render={() => (
+          <PostList posts={reduxPosts}/>
+        )}/>
+        <Route exact path="/udacity" render={() => (
+          <PostList posts={udacityPosts}/>
+        )}/>
+        <Route exact path="/posts/:id" component={Post} />
       </div>
     );
   }

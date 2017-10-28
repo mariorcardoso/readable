@@ -22,6 +22,16 @@
   font-size: large;
 }
 
+.post-footer {
+  font-size: 12px;
+  margin-left: 15px;
+}
+
+.comment-footer {
+  font-size: 12px;
+  margin-left: 15px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
