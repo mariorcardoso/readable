@@ -16,8 +16,11 @@ class CommentList extends Component {
               <span>{comment.voteScore} points</span>
               <span> by {comment.author}</span>
               <span> <TimeAgo date={Date(comment.timestamp)} /></span>
-              <Link to='#'> | Edit</Link>
-              <Link to='#'> | Delete</Link>
+              <div className="actions">
+                <Link to='#'>Edit</Link>
+                <span> | </span>
+                <Link to='#'>Delete</Link>
+              </div>
             </div>
           </div>
         ))}

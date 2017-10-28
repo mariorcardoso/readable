@@ -33,8 +33,11 @@ class Post extends Component {
             <span>{post.voteScore} points</span>
             <span> by {post.author}</span>
             <span> <TimeAgo date={Date(post.timestamp)} /></span>
-            <Link to='#'> | Edit</Link>
-            <Link to='#'> | Delete</Link>
+            <div className="actions">
+              <Link to='#'>Edit</Link>
+              <span> | </span>
+              <Link to='#'>Delete</Link>
+            </div>
           </div>
         </div>
         <hr/>
