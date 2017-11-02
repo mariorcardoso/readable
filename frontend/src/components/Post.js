@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
-import { getPost, getComments } from '../utils/api'
+import {
+  getPost,
+  getComments,
+  createComment,
+  deleteComment
+} from '../utils/api'
 
 class Post extends Component {
   state = {
@@ -16,6 +21,20 @@ class Post extends Component {
     })
     getComments(postId).then((comments) => {
       this.setState({ comments })
+    })
+  }
+  deleteComment = (commentId) => {
+    this.setState((state) => ({
+      comments: state.comments.filter((c) => c.id !== commentId)
+    }))
+
+    deleteComment(commentId)
+  }
+  createComment(comment) {
+    createComment(comment).then(comment => {
+      this.setState((state) => ({
+        comments: state.comments.concat([ comment ])
+      }))
     })
   }
   render() {
@@ -41,7 +60,12 @@ class Post extends Component {
           </div>
         </div>
         <hr/>
-        <CommentList comments={comments}/>
+        <CommentList
+          postId={post.id}
+          comments={comments}
+          onDeleteComment={this.deleteComment}
+          onCreateComment={(comment) => this.createComment(comment)}
+        />
       </div>
     )
   }
