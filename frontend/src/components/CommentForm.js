@@ -53,7 +53,7 @@ class CommentForm extends Component {
   }
 
   render() {
-    const { postId } = this.props
+    const { postId, comment } = this.props
     const { id, timestamp, body, author, submitButton } = this.state
 
     return (
@@ -69,7 +69,7 @@ class CommentForm extends Component {
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
             <div className="form-group">
-              <input type="text" className="form-control" name="author" placeholder="author"
+              <input disabled={comment !== null} type="text" className="form-control" name="author" placeholder="author"
                 value={author}
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
