@@ -3,10 +3,24 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
+import uuidv1 from 'uuid/v1'
 
 class CommentList extends Component {
+  state = {
+    commentToEdit: null
+  }
+
+  editComment = (commentToEdit) => {
+    this.setState({ commentToEdit: commentToEdit })
+  }
+
+  clearCommentToEdit = () => {
+    this.setState({ commentToEdit: null })
+  }
+
   render() {
-    const { comments, onDeleteComment, onCreateComment, postId } = this.props
+    const { comments, onDeleteComment, onCreateComment, onUpdateComment, postId } = this.props
+    const { commentToEdit } = this.state
 
     return (
       <div>
@@ -21,7 +35,7 @@ class CommentList extends Component {
                 <span> by {comment.author}</span>
                 <span> <TimeAgo date={Date(comment.timestamp)} /></span>
                 <div className="actions">
-                  <Link to='#'>Edit</Link>
+                  <a href='#' onClick={() => this.editComment(comment)}>Edit</a>
                   <span> | </span>
                   <a href='#' onClick={() => onDeleteComment(comment.id)}>Delete</a>
                 </div>
@@ -30,8 +44,11 @@ class CommentList extends Component {
           ))}
         </div>
         <CommentForm
+          comment={commentToEdit}
+          clearCommentToEdit={() => this.clearCommentToEdit()}
           postId={postId}
           onCreateComment={onCreateComment}
+          onUpdateComment={onUpdateComment}
         />
       </div>
     )

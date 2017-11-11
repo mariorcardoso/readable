@@ -4,16 +4,46 @@ import uuidv1 from 'uuid/v1'
 
 class CommentForm extends Component {
   state = {
+    id: uuidv1(),
+    timestamp: Date.now(),
     body: '',
-    author: ''
+    author: '',
+    submitButton: 'Add Comment'
+  }
+
+  clearForm = () => {
+    this.setState({ id: uuidv1(), timestamp: Date.now(), body: '', author: '' })
   }
 
   handleSubmit = (e) => {
+    const dthis = this
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
-    if (this.props.onCreateComment)
-      this.props.onCreateComment(values)
-      this.setState({ body: '', author: '' })
+    if(this.props.comment !== null) {
+      if (this.props.onUpdateComment)
+        this.props.onUpdateComment(values)
+        this.clearForm()
+        this.props.clearCommentToEdit()
+    } else {
+      if (this.props.onCreateComment)
+        this.props.onCreateComment(values)
+        this.clearForm()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { comment } = nextProps
+    if(comment !== null) {
+      this.setState({
+        id: comment.id,
+        timestamp: comment.timestamp,
+        body: comment.body,
+        author: comment.author,
+        submitButton: 'Save Changes'
+      })
+    } else {
+      this.clearForm()
+    }
   }
 
   handleInputChange(event) {
@@ -24,14 +54,15 @@ class CommentForm extends Component {
 
   render() {
     const { postId } = this.props
-    const { body, author } = this.state
+    const { id, timestamp, body, author, submitButton } = this.state
 
     return (
       <div className="panel panel-info">
         <div className="panel-body">
           <form onSubmit={this.handleSubmit} className="create-comment-form">
-            <input readOnly type="hidden" name="id" value={uuidv1()} />
-            <input readOnly type="hidden" name="timestamp" value={Date.now()} />
+            <input readOnly type="hidden" name="id" value={id} />
+            <input readOnly type="hidden" name="timestamp" value={timestamp} />
+            <input readOnly type="hidden" name="parentId" value={postId} />
             <div className="form-group">
               <textarea rows="3" className="form-control" name="body" placeholder="body"
                 value={body}
@@ -42,7 +73,7 @@ class CommentForm extends Component {
                 value={author}
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
-            <button type="submit" className="btn btn-default">Add Comment</button>
+            <button type="submit" className="btn btn-default">{submitButton}</button>
           </form>
         </div>
       </div>

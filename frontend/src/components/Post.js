@@ -6,6 +6,7 @@ import {
   getPost,
   getComments,
   createComment,
+  updateComment,
   deleteComment
 } from '../utils/api'
 
@@ -29,6 +30,14 @@ class Post extends Component {
     }))
 
     deleteComment(commentId)
+  }
+  updateComment(comment) {
+    updateComment(comment).then(comment => {
+      const postId = this.props.match.params.id
+      getComments(postId).then((comments) => {
+        this.setState({ comments })
+      })
+    })
   }
   createComment(comment) {
     createComment(comment).then(comment => {
@@ -65,6 +74,7 @@ class Post extends Component {
           comments={comments}
           onDeleteComment={this.deleteComment}
           onCreateComment={(comment) => this.createComment(comment)}
+          onUpdateComment={(comment) => this.updateComment(comment)}
         />
       </div>
     )
