@@ -16,17 +16,17 @@ class CommentForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const dthis = this
     e.preventDefault()
     const values = serializeForm(e.target, { hash: true })
-    if(this.props.comment !== null) {
-      if (this.props.onUpdateComment)
-        this.props.onUpdateComment(values)
+    const { comment, onUpdateComment, onCreateComment, clearCommentToEdit } = this.props
+    if(comment !== null) {
+      if (onUpdateComment)
+        onUpdateComment(values)
         this.clearForm()
-        this.props.clearCommentToEdit()
+        clearCommentToEdit()
     } else {
-      if (this.props.onCreateComment)
-        this.props.onCreateComment(values)
+      if (onCreateComment)
+        onCreateComment(values)
         this.clearForm()
     }
   }
