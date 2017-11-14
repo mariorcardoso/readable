@@ -8,6 +8,7 @@ class CommentForm extends Component {
     timestamp: Date.now(),
     body: '',
     author: '',
+    postId: '',
     submitButton: 'Add Comment'
   }
 
@@ -26,19 +27,20 @@ class CommentForm extends Component {
         clearCommentToEdit()
     } else {
       if (onCreateComment)
-        onCreateComment(values)
+        onCreateComment({ comment: values })
         this.clearForm()
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { comment } = nextProps
+    const { comment, postId } = nextProps
     if(comment !== null) {
       this.setState({
         id: comment.id,
         timestamp: comment.timestamp,
         body: comment.body,
         author: comment.author,
+        postId: postId,
         submitButton: 'Save Changes'
       })
     } else {
@@ -53,8 +55,8 @@ class CommentForm extends Component {
   }
 
   render() {
-    const { postId, comment } = this.props
-    const { id, timestamp, body, author, submitButton } = this.state
+    const { comment } = this.props
+    const { id, timestamp, body, author, submitButton, postId } = this.state
 
     return (
       <div className="panel panel-info">

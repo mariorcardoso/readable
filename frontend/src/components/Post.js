@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { addComment, fetchComments, fetchPost } from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
 import {
-  getPost,
-  getComments,
-  createComment,
-  updateComment,
-  deleteComment
+  updateComment
 } from '../utils/api'
 
 class Post extends Component {
@@ -17,37 +15,25 @@ class Post extends Component {
   }
   componentDidMount() {
     const postId = this.props.match.params.id
-    getPost(postId).then((post) => {
-      this.setState({ post })
-    })
-    getComments(postId).then((comments) => {
-      this.setState({ comments })
-    })
+    this.props.fetchPost(postId)
+    this.props.fetchComments(postId)
   }
-  deleteComment = (commentId) => {
-    this.setState((state) => ({
-      comments: state.comments.filter((c) => c.id !== commentId)
-    }))
-
-    deleteComment(commentId)
-  }
+  // deleteComment = (commentId) => {
+  //   this.setState((state) => ({
+  //     comments: state.comments.filter((c) => c.id !== commentId)
+  //   }))
+  //
+  //   deleteComment(commentId)
+  // }
   updateComment(comment) {
     updateComment(comment).then(comment => {
       const postId = this.props.match.params.id
-      getComments(postId).then((comments) => {
-        this.setState({ comments })
-      })
-    })
-  }
-  createComment(comment) {
-    createComment(comment).then(comment => {
-      this.setState((state) => ({
-        comments: state.comments.concat([ comment ])
-      }))
+      this.props.fetchComments(postId)
     })
   }
   render() {
-    const { post, comments } = this.state
+    // const { post } = this.state
+    const { comments, addComment, post } = this.props
     return (
       <div>
         <div className="panel panel-primary">
@@ -73,7 +59,7 @@ class Post extends Component {
           postId={post.id}
           comments={comments}
           onDeleteComment={this.deleteComment}
-          onCreateComment={(comment) => this.createComment(comment)}
+          onCreateComment={(comment) => addComment(comment)}
           onUpdateComment={(comment) => this.updateComment(comment)}
         />
       </div>
@@ -81,4 +67,19 @@ class Post extends Component {
   }
 }
 
-export default Post
+function mapStateToProps ({comment, post}) {
+  return {
+    comments: comment.comments,
+    post: post.post
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    addComment: (data) => dispatch(addComment(data)),
+    fetchPost: (postId) => dispatch(fetchPost(postId)),
+    fetchComments: (postId) => dispatch(fetchComments(postId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post)

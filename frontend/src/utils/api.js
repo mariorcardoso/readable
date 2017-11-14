@@ -23,7 +23,7 @@ export const getComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, { headers })
     .then(res => res.json())
 
-export const deleteComment = (commentId) =>
+export const destroyComment = (commentId) =>
   fetch(`${api}/comments/${commentId}`, { method: 'DELETE', headers })
     .then(res => res.json())
 
@@ -37,12 +37,12 @@ export const createComment = (body) =>
     body: JSON.stringify(body)
   }).then(res => res.json())
 
-  export const updateComment = (body) =>
-    fetch(`${api}/comments/${body.id}`, {
-      method: 'PUT',
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    }).then(res => res.json())
+export const updateComment = (body) =>
+  fetch(`${api}/comments/${body.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
