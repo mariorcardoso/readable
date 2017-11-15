@@ -1,39 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addComment, fetchComments, fetchPost } from '../actions'
+import { postComment, putComment, fetchComments, fetchPost, deleteComment } from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
-import {
-  updateComment
-} from '../utils/api'
 
 class Post extends Component {
-  state = {
-    post: [],
-    comments: []
-  }
   componentDidMount() {
     const postId = this.props.match.params.id
     this.props.fetchPost(postId)
     this.props.fetchComments(postId)
   }
-  // deleteComment = (commentId) => {
-  //   this.setState((state) => ({
-  //     comments: state.comments.filter((c) => c.id !== commentId)
-  //   }))
-  //
-  //   deleteComment(commentId)
-  // }
-  updateComment(comment) {
-    updateComment(comment).then(comment => {
-      const postId = this.props.match.params.id
-      this.props.fetchComments(postId)
-    })
-  }
   render() {
-    // const { post } = this.state
-    const { comments, addComment, post } = this.props
+    const { comments, postComment, putComment, deleteComment, post } = this.props
     return (
       <div>
         <div className="panel panel-primary">
@@ -58,9 +37,9 @@ class Post extends Component {
         <CommentList
           postId={post.id}
           comments={comments}
-          onDeleteComment={this.deleteComment}
-          onCreateComment={(comment) => addComment(comment)}
-          onUpdateComment={(comment) => this.updateComment(comment)}
+          onDeleteComment={deleteComment}
+          onCreateComment={postComment}
+          onUpdateComment={putComment}
         />
       </div>
     )
@@ -76,7 +55,9 @@ function mapStateToProps ({comment, post}) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    addComment: (data) => dispatch(addComment(data)),
+    deleteComment: (data) => dispatch(deleteComment(data)),
+    putComment: (data) => dispatch(putComment(data)),
+    postComment: (data) => dispatch(postComment(data)),
     fetchPost: (postId) => dispatch(fetchPost(postId)),
     fetchComments: (postId) => dispatch(fetchComments(postId))
   }

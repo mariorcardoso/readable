@@ -9,15 +9,12 @@ class CommentList extends Component {
   state = {
     commentToEdit: null
   }
-
   editComment = (commentToEdit) => {
     this.setState({ commentToEdit: commentToEdit })
   }
-
   clearCommentToEdit = () => {
     this.setState({ commentToEdit: null })
   }
-
   render() {
     const { comments, onDeleteComment, onCreateComment, onUpdateComment, postId } = this.props
     const { commentToEdit } = this.state

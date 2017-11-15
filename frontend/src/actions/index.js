@@ -7,11 +7,17 @@ import {
 } from '../utils/api'
 
 export const ADD_COMMENT = 'ADD_COMMENT'
+export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const RECEIVE_POST = 'RECEIVE_POST'
 
-export const addComment = ({ comment }) => ({
+export const addComment = comment => ({
   type: ADD_COMMENT,
+  comment
+})
+
+export const removeComment = comment => ({
+  type: REMOVE_COMMENT,
   comment
 })
 
@@ -35,15 +41,17 @@ export const fetchComments = (postId) => dispatch => (
     .then(comments => dispatch(receiveComments(comments)))
 )
 
-// TODO
 export const postComment = (data) => dispatch => (
   createComment(data)
+    .then((comment) => dispatch(addComment(comment)))
 )
 
-export const patchComment = (data) => dispatch => (
+export const putComment = (data) => dispatch => (
   updateComment(data)
+    .then(comment =>  dispatch(fetchComments(comment.parentId)))
 )
 
 export const deleteComment = (data) => dispatch => (
   destroyComment(data)
+    .then(comment => dispatch(removeComment(comment)))
 )
