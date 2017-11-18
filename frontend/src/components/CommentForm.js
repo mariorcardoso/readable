@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
+import { connect } from 'react-redux'
+import { postComment, putComment } from '../actions'
 
 class CommentForm extends Component {
   state = {
@@ -86,4 +88,11 @@ class CommentForm extends Component {
   }
 }
 
-export default CommentForm
+function mapDispatchToProps (dispatch) {
+  return {
+    onUpdateComment: (data) => dispatch(putComment(data)),
+    onCreateComment: (data) => dispatch(postComment(data))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CommentForm)

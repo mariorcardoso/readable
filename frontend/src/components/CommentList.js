@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
 import uuidv1 from 'uuid/v1'
+import { connect } from 'react-redux'
+import { fetchComments, deleteComment } from '../actions'
 
 class CommentList extends Component {
   state = {
@@ -44,8 +46,6 @@ class CommentList extends Component {
           comment={commentToEdit}
           clearCommentToEdit={() => this.clearCommentToEdit()}
           postId={postId}
-          onCreateComment={onCreateComment}
-          onUpdateComment={onUpdateComment}
         />
       </div>
     )
@@ -56,4 +56,16 @@ CommentList.propTypes = {
   comments: PropTypes.array.isRequired
 }
 
-export default CommentList
+function mapStateToProps ({comment, post}) {
+  return {
+    comments: comment.comments
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    onDeleteComment: (data) => dispatch(deleteComment(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentList)

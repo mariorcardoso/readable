@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postComment, putComment, fetchComments, fetchPost, deleteComment } from '../actions'
+import { fetchComments, fetchPost } from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
@@ -8,11 +8,11 @@ import CommentList from './CommentList'
 class Post extends Component {
   componentDidMount() {
     const postId = this.props.match.params.id
-    this.props.fetchPost(postId)
-    this.props.fetchComments(postId)
+    this.props.loadPost(postId)
+    this.props.loadComments(postId)
   }
   render() {
-    const { comments, postComment, putComment, deleteComment, post } = this.props
+    const { post, comments } = this.props
     return (
       <div>
         <div className="panel panel-primary">
@@ -34,13 +34,7 @@ class Post extends Component {
           </div>
         </div>
         <hr/>
-        <CommentList
-          postId={post.id}
-          comments={comments}
-          onDeleteComment={deleteComment}
-          onCreateComment={postComment}
-          onUpdateComment={putComment}
-        />
+        <CommentList postId={post.id} />
       </div>
     )
   }
@@ -48,18 +42,14 @@ class Post extends Component {
 
 function mapStateToProps ({comment, post}) {
   return {
-    comments: comment.comments,
     post: post.post
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    deleteComment: (data) => dispatch(deleteComment(data)),
-    putComment: (data) => dispatch(putComment(data)),
-    postComment: (data) => dispatch(postComment(data)),
-    fetchPost: (postId) => dispatch(fetchPost(postId)),
-    fetchComments: (postId) => dispatch(fetchComments(postId))
+    loadPost: (postId) => dispatch(fetchPost(postId)),
+    loadComments: (postId) => dispatch(fetchComments(postId))
   }
 }
 
