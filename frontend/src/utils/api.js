@@ -18,6 +18,16 @@ export const getPost = (postId) =>
   fetch(`${api}/posts/${postId}`, { headers })
     .then(res => res.json())
 
+export const votePost = (body, postId) =>
+  fetch(`${api}/posts/${postId}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+
 // Comments
 export const getComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, { headers })

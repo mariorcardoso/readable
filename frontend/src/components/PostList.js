@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
+import { connect } from 'react-redux'
+import { upVote, downVote } from '../actions'
 
 class PostList extends Component {
   render() {
+    const { posts, addVote, removeVote } = this.props
     return (
       <div className="list-group">
-        {this.props.posts.map((post) => (
+        {posts.map((post) => (
           <div key={post.id} className="list-group-item">
             <Link to={`/posts/${post.id}`}><h4 className="list-group-item-heading">{post.title}</h4></Link>
             <span className="list-group-item-text">{post.voteScore} points</span>
@@ -15,8 +18,8 @@ class PostList extends Component {
             <span className="list-group-item-text"> | posted by {post.author}</span>
             <span className="list-group-item-text"> <TimeAgo date={Date(post.timestamp)} /></span>
             <div className="voting-actions">
-              <a href="#"><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </a>
-              <a href="#"><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </a>
+              <button onClick={() => addVote(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+              <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
             </div>
           </div>
         ))}
@@ -29,4 +32,11 @@ PostList.propTypes = {
   posts: PropTypes.array.isRequired
 }
 
-export default PostList
+function mapDispatchToProps (dispatch) {
+  return {
+    addVote: (data) => dispatch(upVote(data)),
+    removeVote: (data) => dispatch(downVote(data))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(PostList)
