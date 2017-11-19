@@ -53,6 +53,10 @@ class CommentForm extends Component {
       [event.target.name]: event.target.value,
     })
   }
+  canSubmit() {
+    const { body, author } = this.state
+    return body.trim() !== "" && author.trim() !== ""
+  }
   render() {
     const { comment } = this.props
     const { body, author, submitButton } = this.state
@@ -71,7 +75,7 @@ class CommentForm extends Component {
                 value={author}
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
-            <button type="submit" className="btn btn-default">{submitButton}</button>
+            <button disabled={!this.canSubmit()} type="submit" className="btn btn-default">{submitButton}</button>
           </form>
         </div>
       </div>
