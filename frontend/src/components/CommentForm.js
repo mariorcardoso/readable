@@ -6,38 +6,34 @@ import { postComment, putComment } from '../actions'
 
 class CommentForm extends Component {
   state = {
-    id: uuidv1(),
-    timestamp: Date.now(),
     body: '',
     author: '',
     submitButton: 'Add Comment'
   }
-
   clearForm = () => {
     this.setState({
-      id: uuidv1(),
-      timestamp: Date.now(),
       body: '',
-      author: ''
+      author: '',
+      submitButton: 'Add Comment'
     })
   }
-
   handleSubmit = (e) => {
     e.preventDefault()
-    const values = serializeForm(e.target, { hash: true })
-    const { comment, onUpdateComment, onCreateComment, clearCommentToEdit } = this.props
+    const { comment, onUpdateComment, onCreateComment, clearCommentToEdit, postId } = this.props
+    let values = serializeForm(e.target, { hash: true })
     if(comment !== null) {
       if (onUpdateComment)
+        values = {...values, id: comment.id, parentId: comment.parentId, timestamp: comment.timestamp}
         onUpdateComment(values)
         this.clearForm()
         clearCommentToEdit()
     } else {
       if (onCreateComment)
+        values = {...values, id: uuidv1(), parentId: postId, timestamp: Date.now()}
         onCreateComment(values)
         this.clearForm()
     }
   }
-
   componentWillReceiveProps(nextProps) {
     const { comment } = nextProps
     if(comment !== null) {
@@ -52,24 +48,19 @@ class CommentForm extends Component {
       this.clearForm()
     }
   }
-
   handleInputChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     })
   }
-
   render() {
-    const { comment, postId } = this.props
-    const { id, timestamp, body, author, submitButton } = this.state
+    const { comment } = this.props
+    const { body, author, submitButton } = this.state
 
     return (
       <div className="panel panel-info">
         <div className="panel-body">
           <form onSubmit={this.handleSubmit} className="create-comment-form">
-            <input readOnly type="hidden" name="id" value={id} />
-            <input readOnly type="hidden" name="timestamp" value={timestamp} />
-            <input readOnly type="hidden" name="parentId" value={postId} />
             <div className="form-group">
               <textarea rows="3" className="form-control" name="body" placeholder="body"
                 value={body}
