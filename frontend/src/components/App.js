@@ -5,18 +5,15 @@ import PostList from './PostList'
 import Post from './Post'
 import { getPosts } from '../utils/api'
 import '../App.css'
+import { connect } from 'react-redux'
+import { fetchPosts } from '../actions'
 
 class App extends Component {
-  state = {
-    posts: []
-  }
   componentDidMount() {
-    getPosts().then((posts) => {
-      this.setState({ posts })
-    })
+    this.props.loadPosts()
   }
   render() {
-    const { posts } = this.state
+    const { posts } = this.props
     const reactPosts = posts.filter(post => post.category === 'react')
     const reduxPosts = posts.filter(post => post.category === 'redux')
     const udacityPosts = posts.filter(post => post.category === 'udacity')
@@ -42,4 +39,16 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps ({post}) {
+  return {
+    posts: post.posts
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    loadPosts: (postId) => dispatch(fetchPosts()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

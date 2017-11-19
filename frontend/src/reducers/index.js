@@ -3,7 +3,8 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   RECEIVE_COMMENTS,
-  RECEIVE_POST
+  RECEIVE_POST,
+  RECEIVE_POSTS
 } from '../actions'
 
 const initialCommentState = {
@@ -42,18 +43,28 @@ function comment (state = initialCommentState, action) {
 }
 
 const initialPostState = {
-  post: []
+  post: [],
+  posts: []
 }
 
 function post (state = initialPostState, action) {
   switch (action.type) {
-    case RECEIVE_POST:
+    case RECEIVE_POST: {
       const { post } = action
 
       return {
         ...state,
         post: post
       }
+    }
+    case RECEIVE_POSTS: {
+      const { posts } = action
+
+      return {
+        ...state,
+        posts: posts
+      }
+    }
     default:
       return state
   }

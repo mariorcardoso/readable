@@ -1,5 +1,6 @@
 import {
   getPost,
+  getPosts,
   getComments,
   createComment,
   updateComment,
@@ -10,6 +11,7 @@ export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const RECEIVE_POST = 'RECEIVE_POST'
+export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 
 export const addComment = comment => ({
   type: ADD_COMMENT,
@@ -31,9 +33,19 @@ export const receivePost = post => ({
   post
 })
 
+export const receivePosts = posts => ({
+  type: RECEIVE_POSTS,
+  posts
+})
+
 export const fetchPost = (postId) => dispatch => (
   getPost(postId)
     .then(post => dispatch(receivePost(post)))
+)
+
+export const fetchPosts = () => dispatch => (
+  getPosts()
+    .then(posts => dispatch(receivePosts(posts)))
 )
 
 export const fetchComments = (postId) => dispatch => (
