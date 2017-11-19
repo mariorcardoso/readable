@@ -8,12 +8,17 @@ class PostList extends Component {
     return (
       <div className="list-group">
         {this.props.posts.map((post) => (
-          <Link key={post.id} to={`/posts/${post.id}`} className="list-group-item">
-            <h4 className="list-group-item-heading">{post.title}</h4>
+          <div key={post.id} className="list-group-item">
+            <Link to={`/posts/${post.id}`}><h4 className="list-group-item-heading">{post.title}</h4></Link>
             <span className="list-group-item-text">{post.voteScore} points</span>
-            <span className="list-group-item-text"> by {post.author}</span>
+            <span className="list-group-item-text"> | {post.commentCount} comments</span>
+            <span className="list-group-item-text"> | posted by {post.author}</span>
             <span className="list-group-item-text"> <TimeAgo date={Date(post.timestamp)} /></span>
-          </Link>
+            <div className="voting-actions">
+              <a href="#"><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </a>
+              <a href="#"><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </a>
+            </div>
+          </div>
         ))}
       </div>
     )
