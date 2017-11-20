@@ -2,6 +2,7 @@ import {
   getPost,
   getPosts,
   votePost,
+  updatePost,
   getComments,
   createComment,
   updateComment,
@@ -49,14 +50,25 @@ export const fetchPosts = () => dispatch => (
     .then(posts => dispatch(receivePosts(posts)))
 )
 
+export const putPost = (data) => dispatch => (
+  updatePost(data)
+    .then(post => dispatch(receivePost(post)))
+)
+
 export const upVote = (postId) => dispatch => (
   votePost({option: 'upVote'}, postId)
-    .then(res => dispatch(fetchPosts()))
+    .then(post => {
+      dispatch(fetchPosts())
+      dispatch(receivePost(post))
+    })
 )
 
 export const downVote = (postId) => dispatch => (
   votePost({option: 'downVote'}, postId)
-    .then(res => dispatch(fetchPosts()))
+    .then(post => {
+      dispatch(fetchPosts())
+      dispatch(receivePost(post))
+    })
 )
 
 export const fetchComments = (postId) => dispatch => (
@@ -66,7 +78,10 @@ export const fetchComments = (postId) => dispatch => (
 
 export const postComment = (data) => dispatch => (
   createComment(data)
-    .then((comment) => dispatch(addComment(comment)))
+    .then((comment) => {
+      dispatch(addComment(comment))
+      dispatch(fetchPost(comment.parentId))
+    })
 )
 
 export const putComment = (data) => dispatch => (
