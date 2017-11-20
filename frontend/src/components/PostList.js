@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import { connect } from 'react-redux'
-import { upVote, downVote } from '../actions'
+import { upVotePost, downVotePost } from '../actions'
 
 class PostList extends Component {
   state = {
@@ -73,8 +73,8 @@ PostList.propTypes = {
 
 function mapDispatchToProps (dispatch) {
   return {
-    addVote: (data) => dispatch(upVote(data)),
-    removeVote: (data) => dispatch(downVote(data))
+    addVote: (data) => dispatch(upVotePost(data)),
+    removeVote: (data) => dispatch(downVotePost(data))
   }
 }
 

@@ -66,3 +66,13 @@ export const updateComment = (body) =>
     },
     body: JSON.stringify(body)
   }).then(res => res.json())
+
+export const voteComment = (body, commentId) =>
+  fetch(`${api}/comments/${commentId}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())

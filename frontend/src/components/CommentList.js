@@ -5,7 +5,12 @@ import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
 import uuidv1 from 'uuid/v1'
 import { connect } from 'react-redux'
-import { fetchComments, deleteComment } from '../actions'
+import {
+  fetchComments,
+  deleteComment,
+  upVoteComment,
+  downVoteComment
+} from '../actions'
 
 class CommentList extends Component {
   state = {
@@ -18,7 +23,7 @@ class CommentList extends Component {
     this.setState({ commentToEdit: null })
   }
   render() {
-    const { comments, onDeleteComment, onCreateComment, onUpdateComment, postId } = this.props
+    const { comments, onDeleteComment, onCreateComment, onUpdateComment, postId, addVote, removeVote } = this.props
     const { commentToEdit } = this.state
 
     return (
@@ -28,6 +33,10 @@ class CommentList extends Component {
             <div key={comment.id} className="panel panel-default">
               <div className="panel-body">
                 <div className="comment-body">{comment.body}</div>
+                <div className="voting-actions">
+                  <button onClick={() => addVote(comment.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+                  <button onClick={() => removeVote(comment.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+                </div>
               </div>
               <div className="comment-footer">
                 <span>{comment.voteScore} points</span>
@@ -64,7 +73,9 @@ function mapStateToProps ({comment, post}) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onDeleteComment: (data) => dispatch(deleteComment(data))
+    onDeleteComment: (data) => dispatch(deleteComment(data)),
+    addVote: (data) => dispatch(upVoteComment(data)),
+    removeVote: (data) => dispatch(downVoteComment(data))
   }
 }
 

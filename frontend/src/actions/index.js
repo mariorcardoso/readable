@@ -6,6 +6,7 @@ import {
   getComments,
   createComment,
   updateComment,
+  voteComment,
   destroyComment
 } from '../utils/api'
 
@@ -55,7 +56,7 @@ export const putPost = (data) => dispatch => (
     .then(post => dispatch(receivePost(post)))
 )
 
-export const upVote = (postId) => dispatch => (
+export const upVotePost = (postId) => dispatch => (
   votePost({option: 'upVote'}, postId)
     .then(post => {
       dispatch(fetchPosts())
@@ -63,7 +64,7 @@ export const upVote = (postId) => dispatch => (
     })
 )
 
-export const downVote = (postId) => dispatch => (
+export const downVotePost = (postId) => dispatch => (
   votePost({option: 'downVote'}, postId)
     .then(post => {
       dispatch(fetchPosts())
@@ -92,4 +93,18 @@ export const putComment = (data) => dispatch => (
 export const deleteComment = (data) => dispatch => (
   destroyComment(data)
     .then(comment => dispatch(removeComment(comment)))
+)
+
+export const upVoteComment = (commentId) => dispatch => (
+  voteComment({option: 'upVote'}, commentId)
+    .then(comment => {
+      dispatch(fetchComments(comment.parentId))
+    })
+)
+
+export const downVoteComment = (commentId) => dispatch => (
+  voteComment({option: 'downVote'}, commentId)
+    .then(comment => {
+      dispatch(fetchComments(comment.parentId))
+    })
 )

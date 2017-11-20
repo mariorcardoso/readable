@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
-import { fetchComments, fetchPost, upVote, downVote, putPost } from '../actions'
+import {
+  fetchComments,
+  fetchPost,
+  upVotePost,
+  downVotePost,
+  putPost
+} from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
@@ -108,8 +114,8 @@ function mapDispatchToProps (dispatch) {
   return {
     loadPost: (postId) => dispatch(fetchPost(postId)),
     loadComments: (postId) => dispatch(fetchComments(postId)),
-    addVote: (data) => dispatch(upVote(data)),
-    removeVote: (data) => dispatch(downVote(data)),
+    addVote: (data) => dispatch(upVotePost(data)),
+    removeVote: (data) => dispatch(downVotePost(data)),
     onUpdatePost: (data) => dispatch(putPost(data))
   }
 }
