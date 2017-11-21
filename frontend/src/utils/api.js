@@ -38,6 +38,10 @@ export const updatePost = (body) =>
     body: JSON.stringify(body)
   }).then(res => res.json())
 
+export const destroyPost = (postId) =>
+  fetch(`${api}/posts/${postId}`, { method: 'DELETE', headers })
+    .then(res => res.json())
+
 // Comments
 export const getComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, { headers })

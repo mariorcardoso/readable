@@ -4,6 +4,7 @@ import {
   REMOVE_COMMENT,
   RECEIVE_COMMENTS,
   RECEIVE_POST,
+  REMOVE_POST,
   RECEIVE_POSTS
 } from '../actions'
 
@@ -55,6 +56,14 @@ function post (state = initialPostState, action) {
       return {
         ...state,
         post: post
+      }
+    }
+    case REMOVE_POST: {
+      const { post } = action
+
+      return {
+        ...state,
+        posts: state.posts.filter((p) => p.id !== post.id)
       }
     }
     case RECEIVE_POSTS: {

@@ -45,3 +45,10 @@
 .voting-actions {
   float: right;
 }
+
+.post-actions {
+  float: right;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}

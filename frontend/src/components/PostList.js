@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import { connect } from 'react-redux'
-import { upVotePost, downVotePost } from '../actions'
+import { upVotePost, downVotePost, deletePost } from '../actions'
 
 class PostList extends Component {
   state = {
@@ -37,7 +37,7 @@ class PostList extends Component {
     }
   }
   render() {
-    const { posts, addVote, removeVote } = this.props
+    const { posts, addVote, removeVote, onDeletePost } = this.props
     const sortedPosts = this.sortPosts(posts)
     return (
       <div>
@@ -55,9 +55,16 @@ class PostList extends Component {
               <span className="list-group-item-text"> | {post.commentCount} comments</span>
               <span className="list-group-item-text"> | posted by {post.author}</span>
               <span className="list-group-item-text"> <TimeAgo date={Date(post.timestamp)} /></span>
-              <div className="voting-actions">
-                <button onClick={() => addVote(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
-                <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+              <div className="voting-actions post-actions">
+                <div>
+                  <button onClick={() => addVote(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+                  <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+                </div>
+                <div>
+                  <a href='#' onClick={() => this.editComment(post)}>Edit</a>
+                  <span> | </span>
+                  <a href='#' onClick={() => onDeletePost(post.id)}>Delete</a>
+                </div>
               </div>
             </div>
           ))}
@@ -74,7 +81,8 @@ PostList.propTypes = {
 function mapDispatchToProps (dispatch) {
   return {
     addVote: (data) => dispatch(upVotePost(data)),
-    removeVote: (data) => dispatch(downVotePost(data))
+    removeVote: (data) => dispatch(downVotePost(data)),
+    onDeletePost: (data) => dispatch(deletePost(data))
   }
 }
 
