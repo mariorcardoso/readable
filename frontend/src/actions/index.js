@@ -15,7 +15,7 @@ export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const RECEIVE_POST = 'RECEIVE_POST'
-export const REMOVE_POST = 'RECEIVE_POST'
+export const REMOVE_POST = 'REMOVE_POST'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 
 export const addComment = comment => ({
@@ -38,9 +38,9 @@ export const receivePost = post => ({
   post
 })
 
-export const removePost = comment => ({
+export const removePost = post => ({
   type: REMOVE_POST,
-  comment
+  post
 })
 
 export const receivePosts = posts => ({

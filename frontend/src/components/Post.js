@@ -5,6 +5,7 @@ import {
   fetchComments,
   fetchPost,
   upVotePost,
+  deletePost,
   downVotePost,
   putPost
 } from '../actions'
@@ -27,7 +28,10 @@ class Post extends Component {
   }
   componentDidMount() {
     const postId = this.props.match.params.id
-    this.props.loadPost(postId)
+    this.props.loadPost(postId).then((res) => {
+      if(res.post.title == null && res.post.title == null)
+        this.props.history.push('/')
+    })
     this.props.loadComments(postId)
   }
   handleInputChange(event) {
@@ -42,6 +46,9 @@ class Post extends Component {
     values = {...values, id: post.id, timestamp: post.timestamp}
     onUpdatePost(values)
     this.setState({ viewMode: true })
+  }
+  deletePostAndRedirects = (postId) => {
+    this.props.onDeletePost(postId).then(() => this.props.history.push('/'))
   }
   render() {
     const { post, comments, addVote, removeVote } = this.props
@@ -68,7 +75,7 @@ class Post extends Component {
             <div className="actions">
               <Link to='#' onClick={() => this.editMode()}>Edit</Link>
               <span> | </span>
-              <Link to='#'>Delete</Link>
+              <Link to='#' onClick={() => this.deletePostAndRedirects(post.id)}>Delete</Link>
             </div>
           </div>
         </div>
@@ -116,7 +123,8 @@ function mapDispatchToProps (dispatch) {
     loadComments: (postId) => dispatch(fetchComments(postId)),
     addVote: (data) => dispatch(upVotePost(data)),
     removeVote: (data) => dispatch(downVotePost(data)),
-    onUpdatePost: (data) => dispatch(putPost(data))
+    onUpdatePost: (data) => dispatch(putPost(data)),
+    onDeletePost: (data) => dispatch(deletePost(data))
   }
 }
 
