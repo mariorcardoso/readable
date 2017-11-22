@@ -65,11 +65,10 @@ export const fetchPosts = () => dispatch => (
     .then(posts => dispatch(receivePosts(posts)))
 )
 
-export const postPost = (data) => dispatch => {
-  debugger;
+export const postPost = (data) => dispatch => (
   createPost(data)
     .then((post) => dispatch(addPost(post)))
-}
+)
 
 export const putPost = (data) => dispatch => (
   updatePost(data)

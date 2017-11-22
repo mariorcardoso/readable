@@ -25,7 +25,6 @@ class PostForm extends Component {
     e.preventDefault()
     const { post, onUpdatePost, onCreatePost, clearPostToEdit, postId } = this.props
     let values = serializeForm(e.target, { hash: true })
-    debugger
     if(post !== null) {
       values = {...values, id: post.id, timestamp: post.timestamp}
       onUpdatePost(values)
@@ -42,9 +41,11 @@ class PostForm extends Component {
     if(post !== null)
       this.setState({
         id: post.id,
+        title: post.title,
         timestamp: post.timestamp,
         body: post.body,
         author: post.author,
+        category: post.category,
         submitButton: 'Save Changes'
       })
   }
@@ -53,9 +54,9 @@ class PostForm extends Component {
       [event.target.name]: event.target.value
     })
   }
-  cannotSubmit() {
+  canSubmit() {
     const { title, body, author, category } = this.state
-    return title.trim() === "" || body.trim() === "" || author.trim() === "" || category.trim() === ""
+    return title.trim() !== "" && body.trim() !== "" && author.trim() !== "" && category.trim() !== ""
   }
   render() {
     const { post } = this.props
@@ -66,7 +67,7 @@ class PostForm extends Component {
         <div className="panel-body">
           <form onSubmit={this.handleSubmit} className="create-comment-form">
             <div className="form-group">
-              <input disabled={post !== null} type="text" className="form-control" name="title" placeholder="title"
+              <input type="text" className="form-control" name="title" placeholder="title"
                 value={title}
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
@@ -87,7 +88,7 @@ class PostForm extends Component {
                 value={author}
                 onChange={(e) => this.handleInputChange(e)} />
             </div>
-            <button disabled={this.cannotSubmit()} type="submit" className="btn btn-default">{submitButton}</button>
+            <button disabled={!this.canSubmit()} type="submit" className="btn btn-default">{submitButton}</button>
           </form>
         </div>
       </div>

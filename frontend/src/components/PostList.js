@@ -12,6 +12,12 @@ class PostList extends Component {
     order: 'asc',
     postToEdit: null
   }
+  editPost = (postToEdit) => {
+    this.setState({ postToEdit })
+  }
+  clearPostToEdit = () => {
+    this.setState({ postToEdit: null })
+  }
   selectSort = (sortParam) => {
     let order = this.state.order
     if(order === 'asc')
@@ -64,7 +70,7 @@ class PostList extends Component {
                   <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
                 </div>
                 <div>
-                  <a href='#' onClick={() => this.editComment(post)}>Edit</a>
+                  <a href='#' onClick={() => this.editPost(post)}>Edit</a>
                   <span> | </span>
                   <a href='#' onClick={() => onDeletePost(post.id)}>Delete</a>
                 </div>
