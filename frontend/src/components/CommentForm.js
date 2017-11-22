@@ -22,21 +22,19 @@ class CommentForm extends Component {
     const { comment, onUpdateComment, onCreateComment, clearCommentToEdit, postId } = this.props
     let values = serializeForm(e.target, { hash: true })
     if(comment !== null) {
-      if (onUpdateComment)
-        values = {...values, id: comment.id, parentId: comment.parentId, timestamp: comment.timestamp}
-        onUpdateComment(values)
-        this.clearForm()
-        clearCommentToEdit()
+      values = {...values, id: comment.id, parentId: comment.parentId, timestamp: comment.timestamp}
+      onUpdateComment(values)
+      this.clearForm()
+      clearCommentToEdit()
     } else {
-      if (onCreateComment)
-        values = {...values, id: uuidv1(), parentId: postId, timestamp: Date.now()}
-        onCreateComment(values)
-        this.clearForm()
+      values = {...values, id: uuidv1(), parentId: postId, timestamp: Date.now()}
+      onCreateComment(values)
+      this.clearForm()
     }
   }
   componentWillReceiveProps(nextProps) {
     const { comment } = nextProps
-    if(comment !== null) {
+    if(comment !== null)
       this.setState({
         id: comment.id,
         timestamp: comment.timestamp,
@@ -44,13 +42,10 @@ class CommentForm extends Component {
         author: comment.author,
         submitButton: 'Save Changes'
       })
-    } else {
-      this.clearForm()
-    }
   }
   handleInputChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     })
   }
   canSubmit() {

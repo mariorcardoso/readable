@@ -3,6 +3,7 @@ import {
   getPosts,
   votePost,
   updatePost,
+  createPost,
   destroyPost,
   getComments,
   createComment,
@@ -14,6 +15,7 @@ import {
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const ADD_POST = 'ADD_POST'
 export const RECEIVE_POST = 'RECEIVE_POST'
 export const REMOVE_POST = 'REMOVE_POST'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
@@ -31,6 +33,11 @@ export const removeComment = comment => ({
 export const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,
   comments
+})
+
+export const addPost = post => ({
+  type: ADD_POST,
+  post
 })
 
 export const receivePost = post => ({
@@ -58,9 +65,18 @@ export const fetchPosts = () => dispatch => (
     .then(posts => dispatch(receivePosts(posts)))
 )
 
+export const postPost = (data) => dispatch => {
+  debugger;
+  createPost(data)
+    .then((post) => dispatch(addPost(post)))
+}
+
 export const putPost = (data) => dispatch => (
   updatePost(data)
-    .then(post => dispatch(receivePost(post)))
+    .then(post => {
+      dispatch(receivePost(post))
+      dispatch(fetchPosts())
+    })
 )
 
 export const deletePost = (data) => dispatch => (

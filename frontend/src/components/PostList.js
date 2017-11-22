@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
+import PostForm from './PostForm'
 import { connect } from 'react-redux'
 import { upVotePost, downVotePost, deletePost } from '../actions'
 
 class PostList extends Component {
   state = {
     sortParam: '',
-    order: 'asc'
+    order: 'asc',
+    postToEdit: null
   }
   selectSort = (sortParam) => {
     let order = this.state.order
@@ -38,6 +40,7 @@ class PostList extends Component {
   }
   render() {
     const { posts, addVote, removeVote, onDeletePost } = this.props
+    const { postToEdit } = this.state
     const sortedPosts = this.sortPosts(posts)
     return (
       <div>
@@ -69,6 +72,10 @@ class PostList extends Component {
             </div>
           ))}
         </div>
+        <PostForm
+          post={postToEdit}
+          clearPostToEdit={() => this.clearPostToEdit()}
+        />
       </div>
     )
   }
