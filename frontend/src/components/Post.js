@@ -17,22 +17,29 @@ class Post extends Component {
   state = {
     viewMode: true,
     title: '',
-    body: ''
+    body: '',
+    category: ''
   }
   editMode = () => {
     this.setState({
       viewMode: false,
       title: this.props.post.title,
-      body: this.props.post.body
+      body: this.props.post.body,
+      category: this.props.post.category
     })
   }
   componentDidMount() {
     const postId = this.props.match.params.id
     this.props.loadPost(postId).then((res) => {
-      if(res.post.title == null && res.post.title == null)
+      if(res.post.title == null && res.post.body == null)
         this.props.history.push('/')
     })
     this.props.loadComments(postId)
+  }
+  componentWillReceiveProps(nextProps) {
+    const { post } = nextProps
+    if(post.category !== this.props.post.category)
+      this.props.history.push(`/${post.category}/${post.id}`)
   }
   handleInputChange(event) {
     this.setState({
@@ -52,7 +59,7 @@ class Post extends Component {
   }
   render() {
     const { post, comments, addVote, removeVote } = this.props
-    const { viewMode, title, body } = this.state
+    const { viewMode, title, body, category } = this.state
     let content
     if (viewMode) {
       content = (
@@ -89,6 +96,13 @@ class Post extends Component {
                 <input type="text" className="form-control" name="title" placeholder="title"
                   value={title}
                   onChange={(e) => this.handleInputChange(e)} />
+              </div>
+              <div className="form-group">
+                <select value={category} name="category" onChange={(e) => this.handleInputChange(e)}>
+                  <option value="react">React</option>
+                  <option value="redux">Redux</option>
+                  <option value="udacity">Udacity</option>
+                </select>
               </div>
               <div className="form-group">
                 <textarea rows="3" className="form-control" name="body" placeholder="body"
