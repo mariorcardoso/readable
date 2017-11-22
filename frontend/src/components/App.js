@@ -33,7 +33,7 @@ class App extends Component {
         <Route exact path="/udacity" render={() => (
           <PostList posts={udacityPosts}/>
         )}/>
-        <Route exact path="/posts/:id" component={Post} />
+        <Route exact path="/:category/:id" component={Post} />
       </div>
     );
   }

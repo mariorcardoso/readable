@@ -59,7 +59,7 @@ class PostList extends Component {
         <div className="list-group">
           {sortedPosts.map((post) => (
             <div key={post.id} className="list-group-item">
-              <Link to={`/posts/${post.id}`}><h4 className="list-group-item-heading">{post.title}</h4></Link>
+              <Link to={`/${post.category}/${post.id}`}><h4 className="list-group-item-heading">{post.title}</h4></Link>
               <span className="list-group-item-text">{post.voteScore} points</span>
               <span className="list-group-item-text"> | {post.commentCount} comments</span>
               <span className="list-group-item-text"> | posted by {post.author}</span>
