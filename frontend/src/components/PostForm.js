@@ -61,6 +61,10 @@ class PostForm extends Component {
   render() {
     const { post } = this.props
     const { title, body, author, category, submitButton } = this.state
+    let emptyOption = null
+    if(post === null) {
+      emptyOption = <option value="">--Select Category--</option>
+    }
 
     return (
       <div className="panel panel-info">
@@ -78,6 +82,7 @@ class PostForm extends Component {
             </div>
             <div className="form-group">
               <select value={category} name="category" onChange={(e) => this.handleInputChange(e)}>
+                {emptyOption}
                 <option value="react">React</option>
                 <option value="redux">Redux</option>
                 <option value="udacity">Udacity</option>
