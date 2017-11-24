@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import PostForm from './PostForm'
-import { connect } from 'react-redux'
-import * as actions from '../actions'
+import * as actions from '../actions/post'
 
 class PostList extends Component {
   state = {

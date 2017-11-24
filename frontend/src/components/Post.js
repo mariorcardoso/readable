@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
+import * as PostActions from '../actions/post'
+import { fetchComments } from '../actions/comment'
 import CommentList from './CommentList'
 
 class Post extends Component {
@@ -121,4 +122,4 @@ function mapStateToProps ({ post }) {
   return { post }
 }
 
-export default connect(mapStateToProps, actions)(Post)
+export default connect(mapStateToProps, { ...PostActions, fetchComments })(Post)

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
-import { connect } from 'react-redux'
-import * as actions from '../actions'
+import * as actions from '../actions/comment'
 
 class CommentForm extends Component {
   state = {

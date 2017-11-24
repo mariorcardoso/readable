@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
 import uuidv1 from 'uuid/v1'
-import { connect } from 'react-redux'
-import * as actions from '../actions'
+import * as actions from '../actions/comment'
 
 class CommentList extends Component {
   state = {

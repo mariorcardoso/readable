@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
-import uuidv1 from 'uuid/v1'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
+import uuidv1 from 'uuid/v1'
+import * as actions from '../actions/post'
 
 class PostForm extends Component {
   state = {

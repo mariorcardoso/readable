@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 import Navigation from './Navigation'
 import PostList from './PostList'
 import Post from './Post'
 import '../App.css'
-import { connect } from 'react-redux'
-import { fetchPosts } from '../actions'
+import { fetchPosts } from '../actions/post'
 
 class App extends Component {
   componentDidMount() {
