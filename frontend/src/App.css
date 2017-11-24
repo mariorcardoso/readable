@@ -52,3 +52,9 @@
   top: 15px;
   right: 15px;
 }
+
+@media (min-width: 368px) {
+  .navbar-header, .navbar-nav > li {
+    float: left;
+  }
+}

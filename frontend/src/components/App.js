@@ -39,10 +39,8 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({post}) {
-  return {
-    posts: post.posts
-  }
+function mapStateToProps ({ posts }) {
+  return { posts }
 }
 
 function mapDispatchToProps (dispatch) {

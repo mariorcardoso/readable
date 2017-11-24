@@ -125,10 +125,8 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps ({comment, post}) {
-  return {
-    post: post.post
-  }
+function mapStateToProps ({ post }) {
+  return { post }
 }
 
 function mapDispatchToProps (dispatch) {

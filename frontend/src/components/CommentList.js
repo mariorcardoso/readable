@@ -65,10 +65,8 @@ CommentList.propTypes = {
   comments: PropTypes.array.isRequired
 }
 
-function mapStateToProps ({comment, post}) {
-  return {
-    comments: comment.comments
-  }
+function mapStateToProps ({ comments }) {
+  return { comments }
 }
 
 function mapDispatchToProps (dispatch) {
