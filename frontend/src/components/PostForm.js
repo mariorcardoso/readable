@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
 import { connect } from 'react-redux'
-import { postPost, putPost } from '../actions'
+import * as actions from '../actions'
 
 class PostForm extends Component {
   state = {
@@ -23,16 +23,16 @@ class PostForm extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault()
-    const { post, onUpdatePost, onCreatePost, clearPostToEdit, postId } = this.props
+    const { post, putPost, postPost, clearPostToEdit, postId } = this.props
     let values = serializeForm(e.target, { hash: true })
     if(post !== null) {
       values = {...values, id: post.id, timestamp: post.timestamp}
-      onUpdatePost(values)
+      putPost(values)
       this.clearForm()
       clearPostToEdit()
     } else {
       values = {...values, id: uuidv1(), timestamp: Date.now()}
-      onCreatePost(values)
+      postPost(values)
       this.clearForm()
     }
   }
@@ -101,11 +101,4 @@ class PostForm extends Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    onUpdatePost: (data) => dispatch(putPost(data)),
-    onCreatePost: (data) => dispatch(postPost(data))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(PostForm)
+export default connect(null, actions)(PostForm)

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TimeAgo from 'react-timeago'
 import PostForm from './PostForm'
 import { connect } from 'react-redux'
-import { upVotePost, downVotePost, deletePost } from '../actions'
+import * as actions from '../actions'
 
 class PostList extends Component {
   state = {
@@ -45,7 +45,7 @@ class PostList extends Component {
     }
   }
   render() {
-    const { posts, addVote, removeVote, onDeletePost } = this.props
+    const { posts, upVotePost, downVotePost, deletePost } = this.props
     const { postToEdit } = this.state
     const sortedPosts = this.sortPosts(posts)
     return (
@@ -66,13 +66,13 @@ class PostList extends Component {
               <span className="list-group-item-text"> <TimeAgo date={Date(post.timestamp)} /></span>
               <div className="voting-actions post-actions">
                 <div>
-                  <button onClick={() => addVote(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
-                  <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+                  <button onClick={() => upVotePost(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+                  <button onClick={() => downVotePost(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
                 </div>
                 <div>
                   <a href='#' onClick={() => this.editPost(post)}>Edit</a>
                   <span> | </span>
-                  <a href='#' onClick={() => onDeletePost(post.id)}>Delete</a>
+                  <a href='#' onClick={() => deletePost(post.id)}>Delete</a>
                 </div>
               </div>
             </div>
@@ -91,12 +91,4 @@ PostList.propTypes = {
   posts: PropTypes.array.isRequired
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    addVote: (data) => dispatch(upVotePost(data)),
-    removeVote: (data) => dispatch(downVotePost(data)),
-    onDeletePost: (data) => dispatch(deletePost(data))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(PostList)
+export default connect(null, actions)(PostList)

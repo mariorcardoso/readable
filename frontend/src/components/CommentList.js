@@ -5,12 +5,7 @@ import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
 import uuidv1 from 'uuid/v1'
 import { connect } from 'react-redux'
-import {
-  fetchComments,
-  deleteComment,
-  upVoteComment,
-  downVoteComment
-} from '../actions'
+import * as actions from '../actions'
 
 class CommentList extends Component {
   state = {
@@ -23,7 +18,7 @@ class CommentList extends Component {
     this.setState({ commentToEdit: null })
   }
   render() {
-    const { comments, onDeleteComment, onCreateComment, onUpdateComment, postId, addVote, removeVote } = this.props
+    const { comments, deleteComment, onCreateComment, onUpdateComment, postId, upVoteComment, downVoteComment } = this.props
     const { commentToEdit } = this.state
 
     return (
@@ -34,8 +29,8 @@ class CommentList extends Component {
               <div className="panel-body">
                 <div className="comment-body">{comment.body}</div>
                 <div className="voting-actions">
-                  <button onClick={() => addVote(comment.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
-                  <button onClick={() => removeVote(comment.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+                  <button onClick={() => upVoteComment(comment.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+                  <button onClick={() => downVoteComment(comment.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
                 </div>
               </div>
               <div className="comment-footer">
@@ -45,7 +40,7 @@ class CommentList extends Component {
                 <div className="actions">
                   <a href='#' onClick={() => this.editComment(comment)}>Edit</a>
                   <span> | </span>
-                  <a href='#' onClick={() => onDeleteComment(comment.id)}>Delete</a>
+                  <a href='#' onClick={() => deleteComment(comment.id)}>Delete</a>
                 </div>
               </div>
             </div>
@@ -69,12 +64,4 @@ function mapStateToProps ({ comments }) {
   return { comments }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    onDeleteComment: (data) => dispatch(deleteComment(data)),
-    addVote: (data) => dispatch(upVoteComment(data)),
-    removeVote: (data) => dispatch(downVoteComment(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList)
+export default connect(mapStateToProps, actions)(CommentList)

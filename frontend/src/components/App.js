@@ -3,14 +3,13 @@ import { Route } from 'react-router-dom'
 import Navigation from './Navigation'
 import PostList from './PostList'
 import Post from './Post'
-import { getPosts } from '../utils/api'
 import '../App.css'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../actions'
 
 class App extends Component {
   componentDidMount() {
-    this.props.loadPosts()
+    this.props.fetchPosts()
   }
   render() {
     const { posts } = this.props
@@ -43,10 +42,4 @@ function mapStateToProps ({ posts }) {
   return { posts }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    loadPosts: (postId) => dispatch(fetchPosts()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, { fetchPosts })(App)

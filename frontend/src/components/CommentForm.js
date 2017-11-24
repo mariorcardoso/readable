@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
 import { connect } from 'react-redux'
-import { postComment, putComment } from '../actions'
+import * as actions from '../actions'
 
 class CommentForm extends Component {
   state = {
@@ -19,16 +19,16 @@ class CommentForm extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault()
-    const { comment, onUpdateComment, onCreateComment, clearCommentToEdit, postId } = this.props
+    const { comment, updateComment, createComment, clearCommentToEdit, postId } = this.props
     let values = serializeForm(e.target, { hash: true })
     if(comment !== null) {
       values = {...values, id: comment.id, parentId: comment.parentId, timestamp: comment.timestamp}
-      onUpdateComment(values)
+      updateComment(values)
       this.clearForm()
       clearCommentToEdit()
     } else {
       values = {...values, id: uuidv1(), parentId: postId, timestamp: Date.now()}
-      onCreateComment(values)
+      createComment(values)
       this.clearForm()
     }
   }
@@ -78,11 +78,4 @@ class CommentForm extends Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    onUpdateComment: (data) => dispatch(putComment(data)),
-    onCreateComment: (data) => dispatch(postComment(data))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(CommentForm)
+export default connect(null, actions)(CommentForm)

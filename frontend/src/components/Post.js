@@ -1,14 +1,7 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
-import {
-  fetchComments,
-  fetchPost,
-  upVotePost,
-  deletePost,
-  downVotePost,
-  putPost
-} from '../actions'
+import * as actions from '../actions'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import CommentList from './CommentList'
@@ -30,11 +23,11 @@ class Post extends Component {
   }
   componentDidMount() {
     const postId = this.props.match.params.id
-    this.props.loadPost(postId).then((res) => {
+    this.props.fetchPost(postId).then((res) => {
       if(res.post.title == null && res.post.body == null)
         this.props.history.push('/')
     })
-    this.props.loadComments(postId)
+    this.props.fetchComments(postId)
   }
   componentWillReceiveProps(nextProps) {
     const { post } = nextProps
@@ -48,17 +41,17 @@ class Post extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault()
-    const { onUpdatePost, post } = this.props
+    const { putPost, post } = this.props
     let values = serializeForm(e.target, { hash: true })
     values = {...values, id: post.id, timestamp: post.timestamp}
-    onUpdatePost(values)
+    putPost(values)
     this.setState({ viewMode: true })
   }
   deletePostAndRedirects = (postId) => {
-    this.props.onDeletePost(postId).then(() => this.props.history.push('/'))
+    this.props.deletePost(postId).then(() => this.props.history.push('/'))
   }
   render() {
-    const { post, comments, addVote, removeVote } = this.props
+    const { post, comments, upVotePost, downVotePost } = this.props
     const { viewMode, title, body, category } = this.state
     let content
     if (viewMode) {
@@ -70,8 +63,8 @@ class Post extends Component {
           <div className="panel-body">
             {post.body}
             <div className="voting-actions">
-              <button onClick={() => addVote(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
-              <button onClick={() => removeVote(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
+              <button onClick={() => upVotePost(post.id)}><i className="fa fa-arrow-circle-up" aria-hidden="true"></i> +1 </button>
+              <button onClick={() => downVotePost(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
             </div>
           </div>
           <div className="post-footer">
@@ -129,15 +122,4 @@ function mapStateToProps ({ post }) {
   return { post }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    loadPost: (postId) => dispatch(fetchPost(postId)),
-    loadComments: (postId) => dispatch(fetchComments(postId)),
-    addVote: (data) => dispatch(upVotePost(data)),
-    removeVote: (data) => dispatch(downVotePost(data)),
-    onUpdatePost: (data) => dispatch(putPost(data)),
-    onDeletePost: (data) => dispatch(deletePost(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default connect(mapStateToProps, actions)(Post)

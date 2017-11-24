@@ -1,16 +1,4 @@
-import {
-  getPost,
-  getPosts,
-  votePost,
-  updatePost,
-  createPost,
-  destroyPost,
-  getComments,
-  createComment,
-  updateComment,
-  voteComment,
-  destroyComment
-} from '../utils/api'
+import * as API from '../utils/api'
 
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
@@ -56,22 +44,22 @@ export const receivePosts = posts => ({
 })
 
 export const fetchPost = (postId) => dispatch => (
-  getPost(postId)
+  API.getPost(postId)
     .then(post => dispatch(receivePost(post)))
 )
 
 export const fetchPosts = () => dispatch => (
-  getPosts()
+  API.getPosts()
     .then(posts => dispatch(receivePosts(posts)))
 )
 
 export const postPost = (data) => dispatch => (
-  createPost(data)
+  API.createPost(data)
     .then((post) => dispatch(addPost(post)))
 )
 
 export const putPost = (data) => dispatch => (
-  updatePost(data)
+  API.updatePost(data)
     .then(post => {
       dispatch(receivePost(post))
       dispatch(fetchPosts())
@@ -79,12 +67,12 @@ export const putPost = (data) => dispatch => (
 )
 
 export const deletePost = (data) => dispatch => (
-  destroyPost(data)
+  API.destroyPost(data)
     .then(post => dispatch(removePost(post)))
 )
 
 export const upVotePost = (postId) => dispatch => (
-  votePost({option: 'upVote'}, postId)
+  API.votePost({option: 'upVote'}, postId)
     .then(post => {
       dispatch(fetchPosts())
       dispatch(receivePost(post))
@@ -92,7 +80,7 @@ export const upVotePost = (postId) => dispatch => (
 )
 
 export const downVotePost = (postId) => dispatch => (
-  votePost({option: 'downVote'}, postId)
+  API.votePost({option: 'downVote'}, postId)
     .then(post => {
       dispatch(fetchPosts())
       dispatch(receivePost(post))
@@ -100,37 +88,37 @@ export const downVotePost = (postId) => dispatch => (
 )
 
 export const fetchComments = (postId) => dispatch => (
-  getComments(postId)
+  API.getComments(postId)
     .then(comments => dispatch(receiveComments(comments)))
 )
 
-export const postComment = (data) => dispatch => (
-  createComment(data)
+export const createComment = (data) => dispatch => (
+  API.createComment(data)
     .then((comment) => {
       dispatch(addComment(comment))
       dispatch(fetchPost(comment.parentId))
     })
 )
 
-export const putComment = (data) => dispatch => (
-  updateComment(data)
+export const updateComment = (data) => dispatch => (
+  API.updateComment(data)
     .then(comment => dispatch(fetchComments(comment.parentId)))
 )
 
 export const deleteComment = (data) => dispatch => (
-  destroyComment(data)
+  API.destroyComment(data)
     .then(comment => dispatch(removeComment(comment)))
 )
 
 export const upVoteComment = (commentId) => dispatch => (
-  voteComment({option: 'upVote'}, commentId)
+  API.voteComment({option: 'upVote'}, commentId)
     .then(comment => {
       dispatch(fetchComments(comment.parentId))
     })
 )
 
 export const downVoteComment = (commentId) => dispatch => (
-  voteComment({option: 'downVote'}, commentId)
+  API.voteComment({option: 'downVote'}, commentId)
     .then(comment => {
       dispatch(fetchComments(comment.parentId))
     })
