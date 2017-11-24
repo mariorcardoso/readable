@@ -54,7 +54,7 @@ class Post extends Component {
     const { post, comments, upVotePost, downVotePost } = this.props
     const { viewMode, title, body, category } = this.state
     let content
-    if (viewMode) {
+    viewMode ?
       content = (
         <div className="panel panel-primary">
           <div className="panel-heading">
@@ -80,7 +80,7 @@ class Post extends Component {
           </div>
         </div>
       )
-    } else {
+      :
       content = (
         <div className="panel panel-primary">
           <div className="panel-body">
@@ -107,7 +107,6 @@ class Post extends Component {
           </div>
         </div>
       )
-    }
     return (
       <div>
         {content}

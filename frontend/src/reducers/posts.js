@@ -2,7 +2,7 @@ import {
   ADD_POST,
   REMOVE_POST,
   RECEIVE_POSTS
-} from '../actions'
+} from '../actions/types'
 
 export default function posts (state = [], action) {
   switch (action.type) {

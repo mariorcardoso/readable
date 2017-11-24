@@ -2,7 +2,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   RECEIVE_COMMENTS,
-} from '../actions'
+} from '../actions/types'
 
 export default function comments (state = [], action) {
   switch (action.type) {
