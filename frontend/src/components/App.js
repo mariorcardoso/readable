@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Navigation from './Navigation'
 import PostList from './PostList'
 import Post from './Post'
+import NotFound from './NotFound'
 import '../App.css'
 import { fetchPosts } from '../actions/post'
 
@@ -20,19 +21,23 @@ class App extends Component {
     return (
       <div className="container">
         <Navigation />
-        <Route exact path="/" render={() => (
-          <PostList posts={posts}/>
-        )}/>
-        <Route exact path="/react" render={() => (
-          <PostList posts={reactPosts}/>
-        )}/>
-        <Route exact path="/redux" render={() => (
-          <PostList posts={reduxPosts}/>
-        )}/>
-        <Route exact path="/udacity" render={() => (
-          <PostList posts={udacityPosts}/>
-        )}/>
-        <Route exact path="/:category/:id" component={Post} />
+        <Switch>
+          <Route exact path="/" render={() => (
+            <PostList posts={posts}/>
+          )}/>
+          <Route exact path="/react" render={() => (
+            <PostList posts={reactPosts}/>
+          )}/>
+          <Route exact path="/redux" render={() => (
+            <PostList posts={reduxPosts}/>
+          )}/>
+          <Route exact path="/udacity" render={() => (
+            <PostList posts={udacityPosts}/>
+          )}/>
+          <Route exact path="/:category/:id" component={Post} />
+          <Route path="/404" component={NotFound} />
+          <Redirect from="*" to="/404" />
+        </Switch>
       </div>
     );
   }
