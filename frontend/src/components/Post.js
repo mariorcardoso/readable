@@ -25,7 +25,7 @@ class Post extends Component {
   componentDidMount() {
     const postId = this.props.match.params.id
     this.props.fetchPost(postId).then((res) => {
-      if(res.post.error)
+      if(Object.keys(res.post).length === 0)
         this.props.history.push('/404')
     })
     this.props.fetchComments(postId)
