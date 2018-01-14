@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import * as PostActions from '../actions/post'
+import { fetchComments } from '../actions/comment'
 import CommentList from './CommentList'
 
 class Post extends Component {
@@ -27,6 +28,7 @@ class Post extends Component {
       if(Object.keys(res.post).length === 0)
         this.props.history.push('/404')
     })
+    this.props.fetchComments(postId)
   }
   componentWillReceiveProps(nextProps) {
     const { post } = nextProps
@@ -120,4 +122,4 @@ function mapStateToProps ({ post }) {
   return { post }
 }
 
-export default connect(mapStateToProps, { ...PostActions })(Post)
+export default connect(mapStateToProps, { ...PostActions, fetchComments })(Post)

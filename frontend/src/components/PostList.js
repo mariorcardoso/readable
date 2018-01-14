@@ -52,9 +52,9 @@ class PostList extends Component {
       <div>
         <div>
           <span>Order by: </span>
-          <a href='#' onClick={() => this.selectSort('date')}>Date</a>
+          <a onClick={() => this.selectSort('date')}>Date</a>
           <span> | </span>
-          <a href='#' onClick={() => this.selectSort('score')}>Score</a>
+          <a onClick={() => this.selectSort('score')}>Score</a>
         </div>
         <div className="list-group">
           {sortedPosts.map((post) => (
@@ -70,9 +70,9 @@ class PostList extends Component {
                   <button onClick={() => downVotePost(post.id)}><i className="fa fa-arrow-circle-down" aria-hidden="true"></i> -1 </button>
                 </div>
                 <div>
-                  <a href='#' onClick={() => this.editPost(post)}>Edit</a>
+                  <a onClick={() => this.editPost(post)}>Edit</a>
                   <span> | </span>
-                  <a href='#' onClick={() => deletePost(post.id)}>Delete</a>
+                  <a onClick={() => deletePost(post.id)}>Delete</a>
                 </div>
               </div>
             </div>

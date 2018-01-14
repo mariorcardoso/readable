@@ -36,9 +36,9 @@ class CommentList extends Component {
                 <span> by {comment.author}</span>
                 <span> <TimeAgo date={Date(comment.timestamp)} /></span>
                 <div className="actions">
-                  <a href='#' onClick={() => this.editComment(comment)}>Edit</a>
+                  <a onClick={() => this.editComment(comment)}>Edit</a>
                   <span> | </span>
-                  <a href='#' onClick={() => deleteComment(comment.id)}>Delete</a>
+                  <a onClick={() => deleteComment(comment.id)}>Delete</a>
                 </div>
               </div>
             </div>
