@@ -10,7 +10,7 @@ export default function posts (state = [], action) {
       const { post } = action
       return [
         ...state,
-        action.post
+        post
       ]
     }
     case REMOVE_POST: {

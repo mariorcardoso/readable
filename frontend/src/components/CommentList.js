@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import TimeAgo from 'react-timeago'
 import CommentForm from './CommentForm'
-import uuidv1 from 'uuid/v1'
 import * as actions from '../actions/comment'
 
 class CommentList extends Component {
@@ -18,7 +16,7 @@ class CommentList extends Component {
     this.setState({ commentToEdit: null })
   }
   render() {
-    const { comments, deleteComment, onCreateComment, onUpdateComment, postId, upVoteComment, downVoteComment } = this.props
+    const { comments, deleteComment, postId, upVoteComment, downVoteComment } = this.props
     const { commentToEdit } = this.state
 
     return (

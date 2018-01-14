@@ -23,7 +23,7 @@ class PostForm extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault()
-    const { post, putPost, postPost, clearPostToEdit, postId } = this.props
+    const { post, putPost, postPost, clearPostToEdit } = this.props
     let values = serializeForm(e.target, { hash: true })
     if(post !== null) {
       values = {...values, id: post.id, timestamp: post.timestamp}

@@ -10,7 +10,7 @@ export default function comments (state = [], action) {
       const { comment } = action
       return [
         ...state,
-        action.comment
+        comment
       ]
     }
     case REMOVE_COMMENT: {
